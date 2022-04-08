@@ -11,3 +11,18 @@ h1 {
   padding-left: 30px;
 
 }
+h3 {
+  text-align: left;
+  padding-left: 30px;
+
+}
+
+button{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10%;
+  background-color: #FDD32A;
+  color: black;
+  font-weight: bold;
+  border-color: white;
+}
