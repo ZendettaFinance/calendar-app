@@ -50,27 +50,6 @@ const events = [
   end: new Date(2022,3,22)
 }]
 
-
-const getCalendarEvents = async () => {
-  return await fetch(
-    "https://us-central1-calendar-d431e.cloudfunctions.net/getCalendarEvents",{
-      mode: 'no-cors'
-    
-    ,
-    headers: {
-      'Access-Control-Allow-Origin':'*'
-    },
-     method: "GET" }
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      console.log(json);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
 export default function App() {
   const [newEvent, setNewEvent] = useState({title:"", start:"", end:""})
   const [allEvents, setAllEvents] = useState(events)
@@ -92,7 +71,7 @@ export default function App() {
         selected = {newEvent.start} onChange = {(start) => setNewEvent({...newEvent, start})}/>
         <DatePicker placeholderText='End Date' style ={{marginRight:"10px"}}
         selected = {newEvent.end} onChange = {(end) => setNewEvent({...newEvent, end})}/>
-        <button  onClick={getCalendarEvents}>Add Event</button>
+        <button  onClick={handleAddEvent}>Add Event</button>
       </div>
       <Calendar
       culture={"en-GB"}
