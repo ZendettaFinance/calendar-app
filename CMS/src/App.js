@@ -9,6 +9,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
+import { addEvent } from './api/addEvent';
 
 
 
@@ -51,10 +52,25 @@ const events = [
 }]
 
 export default function App() {
-  const [newEvent, setNewEvent] = useState({title:"", start:"", end:""})
+  const [newEvent, setNewEvent] = useState({title:"", start:"", end:"",description:""})
   const [allEvents, setAllEvents] = useState(events)
 
   function handleAddEvent(){
+console.log(newEvent);
+
+const payload = {
+  title: newEvent.title,
+  startdate: newEvent.start.toString(),
+  enddate: newEvent.end.toString(),
+  description: newEvent.description
+};
+
+console.log(JSON.stringify(payload));
+
+addEvent(payload).then(()=>{
+  console.log('success')
+})
+
     setAllEvents([...allEvents, newEvent])
   }
   
@@ -71,6 +87,10 @@ export default function App() {
         selected = {newEvent.start} onChange = {(start) => setNewEvent({...newEvent, start})}/>
         <DatePicker placeholderText='End Date' style ={{marginRight:"10px"}}
         selected = {newEvent.end} onChange = {(end) => setNewEvent({...newEvent, end})}/>
+         <input type="text" placeholder='Add a descritpion' style = {{width:"20%",marginRight:"10px"}}
+        value = {newEvent.description} onChange = {
+          (e) => setNewEvent({...newEvent,description:e.target.value})
+        }/>
         <button  onClick={handleAddEvent}>Add Event</button>
       </div>
       <Calendar

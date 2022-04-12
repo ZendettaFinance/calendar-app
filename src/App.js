@@ -11,6 +11,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./App.css";
 import axios from "axios";
 
+
+
+
 const locales = {
   "en-GB": enGB,
 };
@@ -21,34 +24,14 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
-const events = [
-  {
-    title: "Big Meeting",
-    allDay: true,
-    start: new Date(2022, 3, 2),
-    end: new Date(2022, 3, 5),
-  },
-  {
-    title: "Vaccation",
-    start: new Date(2022, 3, 7),
-    end: new Date(2022, 3, 10),
-  },
-  {
-    title: "ZeFi Meeting",
-    start: new Date(2022, 3, 7),
-    end: new Date(2022, 3, 7),
-  },
-  {
-    title: "Calendar Trial",
-    start: new Date(2022, 3, 14),
-    end: new Date(2022, 3, 16),
-  },
-  {
-    title: "Confrence",
-    start: new Date(2022, 3, 17),
-    end: new Date(2022, 3, 22),
-  },
-];
+const events = [];
+
+
+
+export default function App() {
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
+const [allEvents, setAllEvents] = useState(events);
+
 
 const getCalendarEvents = async () => {
   return await axios
@@ -62,21 +45,39 @@ const getCalendarEvents = async () => {
       }
     )
     .then((res) => {
-      console.log(res);
+
+
+      res.data.map((newEv) =>{
+      let data = newEv.data.data;
+      
+      console.log(data.description);
+      console.log(data.title);
+      console.log(data.enddate);
+      console.log(data.startdate);
+
+      let dbEvent ={
+        title:data.title,
+        start:data.startdate,
+        end:data.enddate,
+      };
+
+      setAllEvents([...allEvents, dbEvent]);
+
+      console.log(allEvents);
+
+
+
+}
+
+     )
     })
     .catch((error) => {
       console.log(error);
     });
 };
+ 
 
-export default function App() {
-  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" });
-  const [allEvents, setAllEvents] = useState(events);
-
-  function handleAddEvent() {
-    setAllEvents([...allEvents, newEvent]);
-  }
-
+ 
   return (
     <div>
       <h1>Blockchain Events</h1>
